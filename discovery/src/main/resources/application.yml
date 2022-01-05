@@ -1,0 +1,11 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    register-with-eureka: false # 해당 eureka 서버를 clinet로 등록 하지 않음
+    fetch-registry: false # clinet의 서비스 리스트 registry 캐싱 미사용

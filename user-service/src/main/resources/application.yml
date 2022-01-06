@@ -1,5 +1,5 @@
 server:
-  port: 0 # Local 환경에서 다중으로 동일 Application 구동을 위한 Random port 설정
+  port: 0 # 동일 Application의 다중 인스턴스 구동을 위한 Random port 설정
 
 spring:
   application:

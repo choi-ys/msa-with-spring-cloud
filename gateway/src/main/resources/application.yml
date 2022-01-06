@@ -14,7 +14,7 @@ spring:
             postLogger: true
       routes:
         - id: user-service
-          uri: http://localhost:9001/
+          uri: lb://USER-SERVICE
           predicates:
             - Path=/**
           filters:
@@ -26,3 +26,13 @@ spring:
                 baseMessage: e-commerce service gateway custom logging filter
                 preLogger: true
                 postLogger: true
+
+eureka:
+  instance:
+    # Random port 기반의 동적으로 생성되는 각 Instance를 구분하기 위한 Instance ID 설정
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true # fetch-registry 속성 : Eureka 서버로부터 인스턴스들의 정보를 가져올것인지에 대한 여부 설정 항목
+    service-url: # service-url 속성 : eureka server의 위치 정보를 설정하는 항목
+      defaultZone: http://127.0.0.1:8761/eureka

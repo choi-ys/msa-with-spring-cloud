@@ -10,7 +10,8 @@ Spring Cloud Netflix Eureka
 매번 담당자가 LB에 추가되거나 삭제되는 인스턴스의 연결정보를 수정하기는 힘들 것 같습니다.
 이를 해결하기 위해 우리는 Spring Cloud Netflix Eureka를 살펴보고 고려해볼 수 있습니다.
 
-Spring Cloud Netflix Eureka는 인스턴스의 연결정보의 Meta Data를 기반으로 인스턴스를 등록/해지하며, 인스턴스의 확장/축소 시에도 변경되는 각 인스턴스를 발견할 수 있는 역할을 담당합니다.
+Spring Cloud Netflix Eureka는 인스턴스의 연결정보의 Meta Data를 기반으로 인스턴스를 등록/해지하며,
+인스턴스의 확장/축소 시에도 변경되는 각 인스턴스를 발견할 수 있는 역할을 담당합니다.
 ```
 
 # Eureka 구성 요소
@@ -29,6 +30,16 @@ Eureka는 Eureka Client(클라이언트)와 Eureka Server(서버)로 구성
 - Eureka Server는 Client들로부터 30초마다(Default value) Client들이 작동 중임을 알 수 있는 Heartbeat를 수신
 - Heartbeat가 오지 않은 경우 Server는 Client가 죽었다고 판단, 90초 내에 해당 Client의 정보를 Registry에서 삭제
 - 이렇게 유지된 Registry 정보를 Server는 Client들에게 전달
+
+---
+
+# Service Discovery의 효과
+```
+애플리케이션의 스케일링을 위해 인스턴스를 실행할 때마다 자동으로 포트가 부여되고,
+사용자들이 인식하지 못한 상태에서 여러 개의 인스턴스가 생성되고 종료됩니다.
+이 과정에서 각각의 인스턴스들은 디스커버리 서비스에 등록되어 라우팅 서비스와 게이트웨이에 의해 필요한 작업을
+처리할 수 있게 됩니다.
+```
 
 ---
 

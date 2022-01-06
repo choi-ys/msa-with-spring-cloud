@@ -14,3 +14,4 @@ spring:
           filters:
             - AddRequestHeader=request-header-name, request-header-value
             - AddResponseHeader=request-header-value, response-header-value
+            - DefaultHttpLoggingFilter

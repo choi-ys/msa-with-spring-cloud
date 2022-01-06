@@ -10,18 +10,18 @@ import org.springframework.context.annotation.Configuration;
  * @date : 2022-01-06 오후 11:27
  * @apiNote : Java Code를 이용한 gateway forwarding router 설정
  */
-@Configuration
+//@Configuration
 public class RouterConfig {
 
     private static final String REQUEST_HEADER_NAME = "request-header-name";
     private static final String REQUEST_HEADER_VALUE = "request-header-value";
-    private static final String RESPONSE_HEADER_NAME = "response-header-name";
+    private static final String RESPONSE_HEADER_NAME = "request-header-value";
     private static final String RESPONSE_HEADER_VALUE = "response-header-value";
 
     private static final String USER_SERVICE_URI = "http://localhost:9001";
     private static final String USER_SERVICE_PREDICATES_PATH = "/**";
 
-    @Bean
+//    @Bean
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(r -> r.path(USER_SERVICE_PREDICATES_PATH)

@@ -4,10 +4,13 @@ server:
 spring:
   application:
     name: gateway-service
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: user-service
-#          uri: http://localhost:9001/
-#          predicates:
-#            - Path=/**
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:9001/
+          predicates:
+            - Path=/**
+          filters:
+            - AddRequestHeader=request-header-name, request-header-value
+            - AddResponseHeader=request-header-value, response-header-value

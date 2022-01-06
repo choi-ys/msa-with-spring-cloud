@@ -6,6 +6,12 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: e-commerce service gateway global filter
+            preLogger: true
+            postLogger: true
       routes:
         - id: user-service
           uri: http://localhost:9001/

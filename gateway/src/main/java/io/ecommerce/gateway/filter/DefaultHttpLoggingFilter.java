@@ -30,11 +30,11 @@ public class DefaultHttpLoggingFilter extends AbstractGatewayFilterFactory<Defau
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            log.info("[CustomFilter][PRE] Response Code -> {}", request.getId());
+            log.info("[CustomFilter][PRE][Request ID -> {}]", request.getId());
 
             return chain.filter(exchange)
                     .then(Mono.fromRunnable(() -> {
-                        log.info("[CustomFilter][POST] Response Code -> {}", response.getStatusCode());
+                        log.info("[CustomFilter][POST][Request ID -> {}][Response Code -> {}]", request.getId(), response.getStatusCode());
                     }));
         };
     }

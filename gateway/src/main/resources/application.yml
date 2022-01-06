@@ -20,4 +20,9 @@ spring:
           filters:
             - AddRequestHeader=request-header-name, request-header-value
             - AddResponseHeader=request-header-value, response-header-value
-            - DefaultHttpLoggingFilter
+            - name: DefaultHttpLoggingFilter
+            - name: CustomHttpLoggingFilter
+              args:
+                baseMessage: e-commerce service gateway custom logging filter
+                preLogger: true
+                postLogger: true

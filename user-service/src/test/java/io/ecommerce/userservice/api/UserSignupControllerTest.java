@@ -1,22 +1,17 @@
 package io.ecommerce.userservice.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.ecommerce.userservice.config.test.EnableMockMvcSupporter;
+import io.ecommerce.userservice.config.test.SpringBootTestSupporter;
 import io.ecommerce.userservice.core.domain.dto.request.SignupRequest;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.core.repository.UserRepo;
 import io.ecommerce.userservice.error.ErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestConstructor;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 
 import static io.ecommerce.userservice.generator.UserGenerator.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,12 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author : choi-ys
  * @date : 2022/01/07 5:10 오후
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EnableMockMvcSupporter
-@Transactional
-@ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@SpringBootTestSupporter
 @DisplayName("API:UserSignup")
 class UserSignupControllerTest {
 

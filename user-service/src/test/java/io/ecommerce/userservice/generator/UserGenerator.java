@@ -8,9 +8,9 @@ import io.ecommerce.userservice.core.domain.entity.User;
  */
 public class UserGenerator {
 
-    public static String EMAIL = "test@gmail.com";
-    public static String PASSWORD = "password";
-    public static String NAME = "choi-ys";
+    public static final String EMAIL = "test@gmail.com";
+    public static final String PASSWORD = "password";
+    public static final String NAME = "choi-ys";
 
     public static User userMock() {
         return User.of(EMAIL, PASSWORD, NAME);

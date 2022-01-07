@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestConstructor;
 
+import static io.ecommerce.userservice.generator.UserGenerator.userMock;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -72,15 +73,7 @@ class UserRepoTest {
         );
     }
 
-    private User generateUser() {
-        String email = "test@gmail.com";
-        String password = "password";
-        String name = "choi-ys";
-
-        return User.of(email, password, name);
-    }
-
     private User savedUser() {
-        return userRepo.saveAndFlush(generateUser());
+        return userRepo.saveAndFlush(userMock());
     }
 }

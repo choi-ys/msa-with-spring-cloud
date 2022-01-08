@@ -1,5 +1,7 @@
 package io.ecommerce.userservice.core.repository;
 
+import io.ecommerce.userservice.core.domain.dto.request.SearchUserRequest;
+import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.generator.UserGenerator;
 import org.junit.jupiter.api.DisplayName;
@@ -7,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestConstructor;
 
@@ -77,6 +81,32 @@ class UserRepoTest {
                 () -> then(expected.getName()).isEqualTo(savedUser.getName()),
                 () -> then(expected.getCreatedAt()).isNotNull(),
                 () -> then(expected.getUpdatedAt()).isNotNull()
+        );
+    }
+
+    @Test
+    @DisplayName("회원 검색")
+    public void searchUserPageBySearchParams() {
+        // Given
+        User user = userGenerator.savedUser();
+        SearchUserRequest searchUserRequest = SearchUserRequest.of(
+                user.getEmail(),
+                user.getName(),
+                null,
+                null,
+                PageRequest.of(0, 5)
+        );
+
+        // When
+        Page<UserResponse> userResponses = userRepo.searchUserPageBySearchParams(searchUserRequest);
+
+        // Then
+        assertAll(
+                () -> then(userResponses.getTotalElements()).isEqualTo(1),
+                () -> then(userResponses.getContent().stream()
+                        .filter(it -> it.getEmail().equals(user.getEmail()))
+                        .count()
+                ).isEqualTo(1)
         );
     }
 }

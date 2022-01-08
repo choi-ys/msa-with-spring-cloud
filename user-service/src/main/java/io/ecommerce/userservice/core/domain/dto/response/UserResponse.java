@@ -1,5 +1,6 @@
 package io.ecommerce.userservice.core.domain.dto.response;
 
+import com.querydsl.core.annotations.QueryProjection;
 import io.ecommerce.userservice.core.domain.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +18,8 @@ public class UserResponse {
     private String email;
     private String name;
 
-    private UserResponse(Long userId, String email, String name) {
+    @QueryProjection
+    public UserResponse(Long userId, String email, String name) {
         this.userId = userId;
         this.email = email;
         this.name = name;

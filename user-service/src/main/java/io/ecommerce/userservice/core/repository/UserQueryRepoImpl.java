@@ -2,7 +2,7 @@ package io.ecommerce.userservice.core.repository;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.JPQLQuery;
-import io.ecommerce.userservice.core.domain.dto.request.SearchUserRequest;
+import io.ecommerce.userservice.core.domain.dto.request.UserSearchRequest;
 import io.ecommerce.userservice.core.domain.dto.response.QUserResponse;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
 import io.ecommerce.userservice.core.domain.entity.QUser;
@@ -26,7 +26,7 @@ public class UserQueryRepoImpl extends QuerydslRepositorySupport implements User
     }
 
     @Override
-    public Page<UserResponse> searchUserPageBySearchParams(SearchUserRequest searchUserRequest) {
+    public Page<UserResponse> searchUserPageBySearchParams(UserSearchRequest userSearchRequest) {
         JPQLQuery<UserResponse> query = from(user)
                 .select(new QUserResponse(
                         user.id,
@@ -34,17 +34,17 @@ public class UserQueryRepoImpl extends QuerydslRepositorySupport implements User
                         user.name
                 ))
                 .where(
-                        likeUserEmail(searchUserRequest.getEmail()),
-                        likeUserName(searchUserRequest.getName()),
-                        userCreatedAtGoe(searchUserRequest.getCreatedAt()),
-                        userUpdatedAtLoe(searchUserRequest.getUpdatedAt())
+                        likeUserEmail(userSearchRequest.getEmail()),
+                        likeUserName(userSearchRequest.getName()),
+                        userCreatedAtGoe(userSearchRequest.getCreatedAt()),
+                        userUpdatedAtLoe(userSearchRequest.getUpdatedAt())
                 );
 
         return new PageImpl<>(
                 getQuerydsl()
-                        .applyPagination(searchUserRequest.getPageable(), query)
+                        .applyPagination(userSearchRequest.getPageable(), query)
                         .fetch(),
-                searchUserRequest.getPageable(),
+                userSearchRequest.getPageable(),
                 query.fetchCount()
         );
     }

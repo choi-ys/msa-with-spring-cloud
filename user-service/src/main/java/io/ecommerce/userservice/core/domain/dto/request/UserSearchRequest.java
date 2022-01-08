@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class SearchUserRequest {
+public class UserSearchRequest {
     private String email;
     private String name;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Pageable pageable;
 
-    private SearchUserRequest(
+    private UserSearchRequest(
             final String email,
             final String name,
             final LocalDateTime createdAt,
@@ -34,13 +34,13 @@ public class SearchUserRequest {
         this.pageable = pageable;
     }
 
-    public static SearchUserRequest of(
+    public static UserSearchRequest of(
             final String email,
             final String name,
             final LocalDateTime createdAt,
             final LocalDateTime updatedAt,
             final Pageable pageable
     ) {
-        return new SearchUserRequest(email, name, createdAt, updatedAt, pageable);
+        return new UserSearchRequest(email, name, createdAt, updatedAt, pageable);
     }
 }

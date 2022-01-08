@@ -1,14 +1,15 @@
 package io.ecommerce.userservice.core.repository;
 
 import io.ecommerce.userservice.core.domain.entity.User;
+import io.ecommerce.userservice.generator.UserGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestConstructor;
 
-import static io.ecommerce.userservice.generator.UserGenerator.userMock;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -21,12 +22,18 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @ActiveProfiles("test")
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Import(UserGenerator.class)
 class UserRepoTest {
 
     private final UserRepo userRepo;
+    private final UserGenerator userGenerator;
 
-    UserRepoTest(UserRepo userRepo) {
+    UserRepoTest(
+            UserRepo userRepo,
+            UserGenerator userGenerator
+    ) {
         this.userRepo = userRepo;
+        this.userGenerator = userGenerator;
     }
 
     @Test
@@ -57,7 +64,7 @@ class UserRepoTest {
     @DisplayName("회원 엔티티 조회")
     void findById() {
         // Given
-        User savedUser = savedUser();
+        User savedUser = userGenerator.savedUser();
 
         // When
         User expected = userRepo.findById(savedUser.getId()).orElseThrow();
@@ -71,9 +78,5 @@ class UserRepoTest {
                 () -> then(expected.getCreatedAt()).isNotNull(),
                 () -> then(expected.getUpdatedAt()).isNotNull()
         );
-    }
-
-    private User savedUser() {
-        return userRepo.saveAndFlush(userMock());
     }
 }

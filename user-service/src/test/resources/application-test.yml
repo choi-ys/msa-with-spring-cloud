@@ -1,0 +1,5 @@
+# test profiles 구동 시 Eureka 미 연동
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false

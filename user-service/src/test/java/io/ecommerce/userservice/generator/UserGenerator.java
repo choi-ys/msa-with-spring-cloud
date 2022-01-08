@@ -1,5 +1,6 @@
 package io.ecommerce.userservice.generator;
 
+import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.core.repository.UserRepo;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,10 @@ public class UserGenerator {
 
     public static User userMock() {
         return User.of(EMAIL, PASSWORD, NAME);
+    }
+
+    public static UserResponse userResponse() {
+        return UserResponse.to(userMock());
     }
 
     public User savedUser() {

@@ -29,14 +29,19 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
-    compileOnly 'org.projectlombok:lombok'
+    // querydsl dependency
+    implementation "com.querydsl:querydsl-jpa"
+    implementation "com.querydsl:querydsl-collections"
+    annotationProcessor 'com.querydsl:querydsl-apt'
+    annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', classifier: 'jpa'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api' // java.lang.NoClassDefFoundError: javax.persistence.Entity 대응
 
     runtimeOnly 'com.h2database:h2'
 
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -45,6 +50,25 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+
+/* [QueryDSL] Start */
+def generated = 'src/main/generated'
+
+// compile시 querydsl의 Qtype 객체 생성 위치 지정
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// java source set 에 querydsl의 Qtype 객체 위치 추가
+sourceSets {
+    main.java.srcDirs += [generated]
+}
+
+// gradle clean 시, Qtype 디렉토리 삭제
+clean {
+    delete file(generated)
+}
+/* [QueryDSL] End */
 
 test {
     useJUnitPlatform()

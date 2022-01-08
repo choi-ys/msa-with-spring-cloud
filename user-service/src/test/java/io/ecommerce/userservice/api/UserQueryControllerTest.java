@@ -8,6 +8,7 @@ import io.ecommerce.userservice.generator.UserGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -62,7 +63,7 @@ class UserQueryControllerTest {
 
     @Test
     @DisplayName("[400:GET]회원조회 실패:존재하지 않는 회원")
-    public void newMock() throws Exception {
+    public void findById_fail_cause_notExist() throws Exception {
         // Given
         final String urlTemplate = String.format("%s/%s", USER_URL, 0L);
 
@@ -80,6 +81,42 @@ class UserQueryControllerTest {
                 .andExpect(jsonPath("$.message").value(ErrorCode.RESOURCE_NOT_FOUND.getMessage()))
                 .andExpect(jsonPath("$.path").value(urlTemplate))
                 .andExpect(jsonPath("$.errorDetails").exists())
+        ;
+    }
+
+    @Test
+    @DisplayName("[200:GET]회원검색")
+    public void userSearch() throws Exception {
+        // Given
+        final User user = userGenerator.savedUser();
+
+        // When
+        ResultActions resultActions = this.mockMvc.perform(get(USER_URL)
+                .param("email", user.getEmail())
+                .param("name", user.getName())
+                .param("page", "0")
+                .param("size", "5")
+                .param("sort", "createdAt")
+                .param("direction", Sort.Direction.DESC.name())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // Then
+        resultActions.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalPages").exists())
+                .andExpect(jsonPath("$.totalElementCount").exists())
+                .andExpect(jsonPath("$.currentPage").exists())
+                .andExpect(jsonPath("$.currentElementCount").exists())
+                .andExpect(jsonPath("$.perPageNumber").exists())
+                .andExpect(jsonPath("$.firstPage").exists())
+                .andExpect(jsonPath("$.lastPage").exists())
+                .andExpect(jsonPath("$.hasNextPage").exists())
+                .andExpect(jsonPath("$.hasPrevious").exists())
+                .andExpect(jsonPath("$.embedded[*].userId").exists())
+                .andExpect(jsonPath("$.embedded[*].email").exists())
+                .andExpect(jsonPath("$.embedded[*].name").exists())
         ;
     }
 }

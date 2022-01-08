@@ -1,6 +1,8 @@
 package io.ecommerce.userservice.core.service;
 
+import io.ecommerce.userservice.core.domain.dto.request.UserSearchRequest;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
+import io.ecommerce.userservice.core.domain.dto.response.common.PageResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.core.repository.UserRepo;
 import io.ecommerce.userservice.generator.UserGenerator;
@@ -10,11 +12,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.Arrays;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -49,5 +57,32 @@ class UserQueryServiceTest {
                 () -> then(expected.getName()).isEqualTo(user.getName())
         );
         verify(userRepo).findById(anyLong());
+    }
+
+    @Test
+    @DisplayName("회원 검색")
+    public void userSearch() {
+        // Given
+        User user = UserGenerator.userMock();
+        UserSearchRequest userSearchRequest = UserSearchRequest.of(
+                user.getEmail(),
+                null,
+                null,
+                null,
+                PageRequest.of(0, 5)
+        );
+        given(userRepo.searchUserPageBySearchParams(any(UserSearchRequest.class)))
+                .willReturn(new PageImpl<>(Arrays.asList(UserGenerator.userResponse())));
+
+        // When
+        PageResponse<UserResponse> expected = userQueryService.userSearch(userSearchRequest);
+
+        // Then
+        assertThat(expected.getEmbedded())
+                .allSatisfy(userSearchResponse -> {
+                    assertTrue(userSearchResponse.getEmail().contains(user.getEmail()));
+                    assertTrue(userSearchResponse.getName().contains(user.getName()));
+                });
+        verify(userRepo).searchUserPageBySearchParams(userSearchRequest);
     }
 }

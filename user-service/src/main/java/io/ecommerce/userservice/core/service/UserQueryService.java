@@ -1,6 +1,8 @@
 package io.ecommerce.userservice.core.service;
 
+import io.ecommerce.userservice.core.domain.dto.request.UserSearchRequest;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
+import io.ecommerce.userservice.core.domain.dto.response.common.PageResponse;
 import io.ecommerce.userservice.core.repository.UserRepo;
 import io.ecommerce.userservice.error.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,5 +24,9 @@ public class UserQueryService {
 
     public UserResponse findById(Long id) {
         return UserResponse.to(userRepo.findById(id).orElseThrow(ResourceNotFoundException::new));
+    }
+
+    public PageResponse userSearch(UserSearchRequest userSearchRequest) {
+        return PageResponse.of(userRepo.searchUserPageBySearchParams(userSearchRequest));
     }
 }

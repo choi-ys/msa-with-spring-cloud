@@ -8,10 +8,10 @@ import io.ecommerce.productgservice.core.domain.Product
  */
 data class ProductResponse(
     val productId: Long,
-    var name: String,
-    var productCode: String,
-    var price: Long,
-    var stock: Int,
+    val name: String,
+    val productCode: String,
+    val price: Long,
+    val stock: Int,
 ) {
     companion object {
         fun of(product: Product): ProductResponse {

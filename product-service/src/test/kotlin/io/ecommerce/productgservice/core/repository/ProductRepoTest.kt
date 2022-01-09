@@ -3,11 +3,13 @@ package io.ecommerce.productgservice.core.repository
 import io.ecommerce.productgservice.config.test.DataJpaTestSupporter
 import io.ecommerce.productgservice.core.domain.Product
 import io.ecommerce.productgservice.generator.ProductGenerator
+import org.assertj.core.api.BDDAssertions
 import org.assertj.core.api.Java6BDDAssertions.then
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.springframework.context.annotation.Import
+import org.springframework.data.domain.PageRequest
 
 /**
  * @author : choi-ys
@@ -63,5 +65,37 @@ class ProductRepoTest(
             { then(expected.createdAt).isEqualTo(savedProduct.createdAt) },
             { then(expected.updatedAt).isEqualTo(savedProduct.updatedAt) }
         )
+    }
+
+    @Test
+    @DisplayName("상품 목록 조회")
+    fun findAll() {
+        // Given
+        val requestPage = 0
+        val perPageNum = 5
+        val pageRequest = PageRequest.of(requestPage, perPageNum)
+        val savedProduct = productGenerator.savedProduct()
+
+        // When
+        val expected = productRepo.findAll(pageRequest)
+
+        // Then
+        assertAll(
+            { BDDAssertions.then(expected.totalPages).isEqualTo(1) },
+            { BDDAssertions.then(expected.totalElements).isEqualTo(1) },
+            { BDDAssertions.then(expected.number).isEqualTo(requestPage) },
+            { BDDAssertions.then(expected.numberOfElements).isEqualTo(1) },
+            { BDDAssertions.then(expected.size).isEqualTo(perPageNum) },
+            { BDDAssertions.then(expected.isFirst).isTrue() },
+            { BDDAssertions.then(expected.isLast).isTrue() },
+            { BDDAssertions.then(expected.hasNext()).isFalse() },
+            { BDDAssertions.then(expected.hasPrevious()).isFalse() },
+            {
+                BDDAssertions.then(expected.content.stream()
+                    .filter { it.productCode == savedProduct.productCode }
+                    .count()
+                ).isEqualTo(1)
+            },
+        );
     }
 }

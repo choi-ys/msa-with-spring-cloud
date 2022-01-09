@@ -1,7 +1,9 @@
 package io.ecommerce.productgservice.core.service
 
+import io.ecommerce.productgservice.core.domain.common.PageResponse
 import io.ecommerce.productgservice.core.domain.dto.response.ProductResponse
 import io.ecommerce.productgservice.core.repository.ProductRepo
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,4 +21,10 @@ class ProductQueryService(
         productRepo.findById(id).orElseThrow().let {
             ProductResponse.of(it)
         }
+
+    fun findAllByPageRequest(pageable: Pageable) =
+        productRepo.findAll(pageable).let {
+            PageResponse.of(it)
+        }
+
 }

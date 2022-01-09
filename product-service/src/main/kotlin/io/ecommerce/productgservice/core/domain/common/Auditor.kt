@@ -1,4 +1,4 @@
-package io.ecommerce.catalogservice.core.domain.common
+package io.ecommerce.productgservice.core.domain.common
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp

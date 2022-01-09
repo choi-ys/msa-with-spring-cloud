@@ -1,6 +1,6 @@
-package io.ecommerce.catalogservice.core.domain
+package io.ecommerce.productgservice.core.domain
 
-import io.ecommerce.catalogservice.core.domain.common.Auditor
+import io.ecommerce.productgservice.core.domain.common.Auditor
 import javax.persistence.Entity
 import javax.persistence.Table
 
@@ -9,8 +9,8 @@ import javax.persistence.Table
  * @date : 2022/01/08 7:08 오후
  */
 @Entity
-@Table(name = "catalog")
-data class Catalog(
+@Table(name = "product")
+data class Product(
     var name: String,
     var productId: String,
     var price: Long,

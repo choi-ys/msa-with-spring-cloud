@@ -1,10 +1,10 @@
-package io.ecommerce.catalogservice
+package io.ecommerce.productgservice
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class CatalogServiceApplicationTests {
+class ProductServiceApplicationTests {
 
     @Test
     fun contextLoads() {

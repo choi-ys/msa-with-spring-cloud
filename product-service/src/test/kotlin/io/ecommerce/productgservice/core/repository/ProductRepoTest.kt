@@ -1,6 +1,6 @@
-package io.ecommerce.catalogservice.core.repository
+package io.ecommerce.productgservice.core.repository
 
-import io.ecommerce.catalogservice.core.domain.Catalog
+import io.ecommerce.productgservice.core.domain.Product
 import org.assertj.core.api.Java6BDDAssertions.then
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -14,11 +14,11 @@ import org.springframework.test.context.TestConstructor
  * @date : 2022/01/08 7:15 오후
  */
 @DataJpaTest
-@DisplayName("Repo:Catalog")
+@DisplayName("Repo:Product")
 @ActiveProfiles("test")
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class CatalogRepoTest(
-    private val catalogRepo: CatalogRepo,
+class ProductRepoTest(
+    private val productRepo: ProductRepo,
 ) {
 
     @Test
@@ -29,29 +29,29 @@ class CatalogRepoTest(
         val productId = "COIN_001"
         val price = 15000L
         val stock = 5
-        val catalog = Catalog(name, productId, price, stock)
+        val product = Product(name, productId, price, stock)
 
         // When
-        val expected = catalogRepo.save(catalog)
+        val expected = productRepo.save(product)
 
         // Then
         assertAll(
             { then(expected.id).isNotNull() },
-            { then(expected.name).isEqualTo(catalog.name) },
-            { then(expected.price).isEqualTo(catalog.price) },
-            { then(expected.stock).isEqualTo(catalog.stock) },
+            { then(expected.name).isEqualTo(product.name) },
+            { then(expected.price).isEqualTo(product.price) },
+            { then(expected.stock).isEqualTo(product.stock) },
             { then(expected.createdAt).isNotNull() },
             { then(expected.updatedAt).isNotNull() }
         )
     }
 
-    private fun catalogMock(): Catalog {
+    private fun productMock(): Product {
         val name = "퀀텀"
         val productId = "COIN_001"
         val price = 15000L
         val stock = 5
-        return Catalog(name, productId, price, stock)
+        return Product(name, productId, price, stock)
     }
 
-    private fun savedCatalog() = catalogRepo.saveAndFlush(catalogMock())
+    private fun savedProduct() = productRepo.saveAndFlush(productMock())
 }

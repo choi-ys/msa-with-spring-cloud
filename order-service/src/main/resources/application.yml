@@ -1,0 +1,28 @@
+server:
+  port: 0 # 동일 Application의 다중 인스턴스 구동을 위한 Random port 설정
+
+spring:
+  application:
+    name: order-service
+
+  datasource:
+    url: jdbc:h2:mem:test_db;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+
+eureka:
+  instance:
+    # Random port 기반의 동적으로 생성되는 각 Instance를 구분하기 위한 Instance ID 설정
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true # fetch-registry 속성 : Eureka 서버로부터 인스턴스들의 정보를 가져올것인지에 대한 여부 설정 항목
+    service-url: # service-url 속성 : eureka server의 위치 정보를 설정하는 항목
+      defaultZone: http://127.0.0.1:8761/eureka

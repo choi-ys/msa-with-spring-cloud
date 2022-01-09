@@ -1,24 +1,24 @@
 package io.ecommerce.productgservice.core.repository
 
+import io.ecommerce.productgservice.config.test.DataJpaTestSupporter
 import io.ecommerce.productgservice.core.domain.Product
+import io.ecommerce.productgservice.generator.ProductGenerator
 import org.assertj.core.api.Java6BDDAssertions.then
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.TestConstructor
+import org.springframework.context.annotation.Import
 
 /**
  * @author : choi-ys
  * @date : 2022/01/08 7:15 오후
  */
-@DataJpaTest
+@DataJpaTestSupporter
 @DisplayName("Repo:Product")
-@ActiveProfiles("test")
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@Import(ProductGenerator::class)
 class ProductRepoTest(
     private val productRepo: ProductRepo,
+    private val productGenerator: ProductGenerator,
 ) {
 
     @Test
@@ -26,10 +26,10 @@ class ProductRepoTest(
     fun save() {
         // Given
         val name = "퀀텀"
-        val productId = "COIN_001"
+        val productCode = "COIN_001"
         val price = 15000L
         val stock = 5
-        val product = Product(name, productId, price, stock)
+        val product = Product(name, productCode, price, stock)
 
         // When
         val expected = productRepo.save(product)
@@ -45,13 +45,23 @@ class ProductRepoTest(
         )
     }
 
-    private fun productMock(): Product {
-        val name = "퀀텀"
-        val productId = "COIN_001"
-        val price = 15000L
-        val stock = 5
-        return Product(name, productId, price, stock)
-    }
+    @Test
+    @DisplayName("상품 엔티티 조회")
+    fun findById() {
+        // Given
+        val savedProduct = productGenerator.savedProduct()
 
-    private fun savedProduct() = productRepo.saveAndFlush(productMock())
+        // When
+        val expected = productRepo.findById(savedProduct.id).orElseThrow()
+
+        // Then
+        assertAll(
+            { then(expected.id).isEqualTo(savedProduct.id) },
+            { then(expected.name).isEqualTo(savedProduct.name) },
+            { then(expected.price).isEqualTo(savedProduct.price) },
+            { then(expected.stock).isEqualTo(savedProduct.stock) },
+            { then(expected.createdAt).isEqualTo(savedProduct.createdAt) },
+            { then(expected.updatedAt).isEqualTo(savedProduct.updatedAt) }
+        )
+    }
 }

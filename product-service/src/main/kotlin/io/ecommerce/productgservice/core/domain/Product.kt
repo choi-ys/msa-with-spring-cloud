@@ -12,7 +12,7 @@ import javax.persistence.Table
 @Table(name = "product")
 data class Product(
     var name: String,
-    var productId: String,
+    var productCode: String,
     var price: Long,
     var stock: Int,
 ) : Auditor()

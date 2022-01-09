@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: catalog-service
+    name: product-service
 
   datasource:
     url: jdbc:h2:mem:test_db;DB_CLOSE_ON_EXIT=FALSE
@@ -13,7 +13,9 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
 
 eureka:
   instance:

@@ -1,4 +1,4 @@
-package io.ecommerce.catalogservice
+package io.ecommerce.productgservice
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -6,8 +6,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 
 @SpringBootApplication
 @EnableDiscoveryClient
-class CatalogServiceApplication
+class ProductServiceApplication
 
 fun main(args: Array<String>) {
-    runApplication<CatalogServiceApplication>(*args)
+    runApplication<ProductServiceApplication>(*args)
 }

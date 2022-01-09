@@ -1,7 +1,7 @@
-package io.ecommerce.productgservice.config.test
+package io.ecommerce.orderservice.config.test
 
 import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration
-import io.ecommerce.productgservice.config.p6spy.P6spyLogMessageFormatConfiguration
+import io.ecommerce.orderservice.config.p6spy.P6spyLogMessageFormatConfiguration
 import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest

@@ -1,4 +1,4 @@
-package io.ecommerce.productgservice.config.p6spy
+package io.ecommerce.orderservice.config.p6spy
 
 import com.p6spy.engine.spy.P6SpyOptions
 import javax.annotation.PostConstruct

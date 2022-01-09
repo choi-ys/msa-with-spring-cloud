@@ -1,4 +1,4 @@
-package io.ecommerce.productgservice.config.p6spy
+package io.ecommerce.orderservice.config.p6spy
 
 import com.p6spy.engine.logging.Category
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy

@@ -1,7 +1,7 @@
 package io.ecommerce.orderservice.core.repository
 
 import io.ecommerce.orderservice.core.domain.dto.entity.Orders
-import io.ecommerce.productgservice.config.test.DataJpaTestSupporter
+import io.ecommerce.orderservice.config.test.DataJpaTestSupporter
 import org.assertj.core.api.BDDAssertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

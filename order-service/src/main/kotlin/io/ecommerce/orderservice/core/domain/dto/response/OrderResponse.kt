@@ -13,6 +13,7 @@ data class OrderResponse(
     val productId: Long,
     val quantity: Int,
     val unitPrice: Long,
+    val totalPrice: Long,
     val createdAt: LocalDateTime,
 ) {
     companion object {
@@ -23,6 +24,7 @@ data class OrderResponse(
                 productId = orders.productId,
                 quantity = orders.quantity,
                 unitPrice = orders.unitPrice,
+                totalPrice = orders.totalPrice,
                 createdAt = orders.createdAt.let { LocalDateTime.now() }
             )
         }

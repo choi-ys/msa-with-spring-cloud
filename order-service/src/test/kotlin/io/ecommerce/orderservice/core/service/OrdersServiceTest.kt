@@ -50,6 +50,7 @@ internal class OrdersServiceTest {
             { BDDAssertions.then(expected.productId).isEqualTo(ordersMock.productId) },
             { BDDAssertions.then(expected.quantity).isEqualTo(ordersMock.quantity) },
             { BDDAssertions.then(expected.unitPrice).isEqualTo(ordersMock.unitPrice) },
+            { BDDAssertions.then(expected.totalPrice).isEqualTo(ordersMock.quantity * ordersMock.unitPrice) },
         )
         verify(ordersRepo).save(any(Orders::class.java))
     }

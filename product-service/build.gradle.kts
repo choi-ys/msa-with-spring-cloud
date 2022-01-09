@@ -36,6 +36,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
+    implementation("com.querydsl:querydsl-jpa")
+    implementation("com.querydsl:querydsl-collections")
+    annotationProcessor("com.querydsl:querydsl-apt")
+//    annotationProcessor(group: 'com.querydsl', name: 'querydsl-apt', classifier: 'jpa')
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api") // java.lang.NoClassDefFoundError: javax.persistence.Entity 대응
+
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.0")
+
     runtimeOnly("com.h2database:h2")
 
     compileOnly("org.projectlombok:lombok")

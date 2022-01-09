@@ -14,7 +14,7 @@ import javax.persistence.*
 @EntityListeners(AuditingEntityListener::class)
 abstract class Auditor(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    var id: Long = 0L,
 
     @CreationTimestamp
     @Column(name = "created_at")

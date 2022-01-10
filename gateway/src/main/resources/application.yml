@@ -16,16 +16,23 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/**
+            - Path=/user-service/**
           filters:
-            - AddRequestHeader=request-header-name, request-header-value
-            - AddResponseHeader=request-header-value, response-header-value
-            - name: DefaultHttpLoggingFilter
-            - name: CustomHttpLoggingFilter
-              args:
-                baseMessage: e-commerce service gateway custom logging filter
-                preLogger: true
-                postLogger: true
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product-service/**
+          filters:
+            - RewritePath=/product-service/(?<segment>.*), /$\{segment}
+
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
 
 eureka:
   instance:

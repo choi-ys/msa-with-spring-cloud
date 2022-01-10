@@ -16,10 +16,30 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
+            - Path=/user-service/user
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
             - Path=/user-service/**
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationFilter
+
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:
@@ -44,3 +64,8 @@ eureka:
     fetch-registry: true # fetch-registry 속성 : Eureka 서버로부터 인스턴스들의 정보를 가져올것인지에 대한 여부 설정 항목
     service-url: # service-url 속성 : eureka server의 위치 정보를 설정하는 항목
       defaultZone: http://127.0.0.1:8761/eureka
+
+---
+
+token:
+  signature: secret-key

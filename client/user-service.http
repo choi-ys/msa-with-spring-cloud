@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 > {%
-client.global.set("username", response.headers.valueOf("username"))
+client.global.set("accessToken", response.headers.valueOf("token"))
 %}
 
 ###
@@ -31,11 +31,13 @@ client.global.set("username", response.headers.valueOf("username"))
 # 특정 회원 조회
 GET {{user-service}}/user/{{signupUserId}}
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 ###
 
 # 회원 목록 조회
 GET {{user-service}}/user?page=0&size=10&sort=createdAt&direction=DESC
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 ###

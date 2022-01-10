@@ -5,6 +5,12 @@ spring:
   application:
     name: user-service
 
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
   datasource:
     url: jdbc:h2:mem:test_db;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver

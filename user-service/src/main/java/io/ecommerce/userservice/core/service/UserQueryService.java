@@ -5,8 +5,14 @@ import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
 import io.ecommerce.userservice.core.domain.dto.response.common.PageResponse;
 import io.ecommerce.userservice.core.repository.UserRepo;
 import io.ecommerce.userservice.error.exception.ResourceNotFoundException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 /**
  * @author : choi-ys
@@ -14,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(readOnly = true)
-public class UserQueryService {
+public class UserQueryService implements UserDetailsService {
 
     private UserRepo userRepo;
 
@@ -28,5 +34,13 @@ public class UserQueryService {
 
     public PageResponse userSearch(UserSearchRequest userSearchRequest) {
         return PageResponse.of(userRepo.searchUserPageBySearchParams(userSearchRequest));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        io.ecommerce.userservice.core.domain.entity.User user = userRepo.findByEmail(username).orElseThrow(
+                () -> new UsernameNotFoundException("")
+        );
+        return new User(user.getEmail(), user.getPassword(), Set.of());
     }
 }

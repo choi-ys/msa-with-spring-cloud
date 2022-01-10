@@ -1,0 +1,22 @@
+# 주문 생성
+POST{{order-service}}/orders
+Content-Type: application/json
+
+{
+  "userId": {{signupUserId}},
+  "productId": 1,
+  "quantity": 1,
+  "unitPrice": 15000
+}
+> {%
+client.global.set("createdOrdersUserId",response.body.userId)
+%}
+
+###
+
+# 특정 회원의 주문 목록 조회
+#GET {{gateway}}/orders/{{createdOrdersUserId}}
+GET{{order-service}}/orders/{{signupUserId}}
+Content-Type: application/json
+
+###

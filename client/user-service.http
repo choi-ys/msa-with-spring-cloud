@@ -13,6 +13,21 @@ client.global.set("signupUserId", response.body.userId)
 
 ###
 
+# 로그인
+POST {{user-service}}/login
+Content-Type: application/json
+
+{
+  "email": "test@gmail.com",
+  "password": "password"
+}
+
+> {%
+client.global.set("username", response.headers.valueOf("username"))
+%}
+
+###
+
 # 특정 회원 조회
 GET {{user-service}}/user/{{signupUserId}}
 Content-Type: application/json

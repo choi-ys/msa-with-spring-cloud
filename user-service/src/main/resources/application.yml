@@ -30,3 +30,8 @@ eureka:
     fetch-registry: true # fetch-registry 속성 : Eureka 서버로부터 인스턴스들의 정보를 가져올것인지에 대한 여부 설정 항목
     service-url: # service-url 속성 : eureka server의 위치 정보를 설정하는 항목
       defaultZone: http://127.0.0.1:8761/eureka
+
+---
+token:
+  token-validity-in-seconds-term: 86400
+  secret-key: secret-key

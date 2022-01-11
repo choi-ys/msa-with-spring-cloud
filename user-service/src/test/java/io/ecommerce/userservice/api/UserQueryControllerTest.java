@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date : 2022/01/08 2:36 오후
  */
 @SpringBootTestSupporter
-@DisplayName("API:userQuery")
+@DisplayName("API:UserQuery")
 @Import(UserGenerator.class)
 class UserQueryControllerTest {
 

@@ -31,7 +31,7 @@ internal class OrderControllerTest(
     }
 
     @Test
-    @DisplayName("[201:POST]")
+    @DisplayName("[201:POST]주문 생성")
     fun createOrder() {
         // Given
         val ordersMock = OrdersGenerator.ordersMock()

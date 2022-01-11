@@ -20,7 +20,7 @@ import org.springframework.data.domain.PageRequest
  * @date : 2022/01/09 9:43 오후
  */
 @ExtendWith(MockitoExtension::class)
-@DisplayName("Service:Orders")
+@DisplayName("Service:OrdersQuery")
 internal class OrdersQueryServiceTest {
 
     @Mock

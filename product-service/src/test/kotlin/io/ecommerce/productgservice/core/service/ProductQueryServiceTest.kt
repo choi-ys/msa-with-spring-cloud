@@ -20,7 +20,7 @@ import java.util.*
  * @date : 2022/01/09 4:07 오후
  */
 @ExtendWith(MockitoExtension::class)
-@DisplayName("Service:Product")
+@DisplayName("Service:ProductQuery")
 internal class ProductQueryServiceTest {
 
     @Mock

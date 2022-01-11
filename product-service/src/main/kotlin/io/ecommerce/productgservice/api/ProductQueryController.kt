@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("product")
-class ProductController(
+class ProductQueryController(
     private val productQueryService: ProductQueryService,
 ) {
 

@@ -82,9 +82,9 @@ class ProductRepoTest(
         // Then
         assertAll(
             { BDDAssertions.then(expected.totalPages).isEqualTo(1) },
-            { BDDAssertions.then(expected.totalElements).isEqualTo(1) },
+            { BDDAssertions.then(expected.totalElements).isEqualTo(5) },
             { BDDAssertions.then(expected.number).isEqualTo(requestPage) },
-            { BDDAssertions.then(expected.numberOfElements).isEqualTo(1) },
+            { BDDAssertions.then(expected.numberOfElements).isEqualTo(5) },
             { BDDAssertions.then(expected.size).isEqualTo(perPageNum) },
             { BDDAssertions.then(expected.isFirst).isTrue() },
             { BDDAssertions.then(expected.isLast).isTrue() },
@@ -94,7 +94,7 @@ class ProductRepoTest(
                 BDDAssertions.then(expected.content.stream()
                     .filter { it.productCode == savedProduct.productCode }
                     .count()
-                ).isEqualTo(1)
+                ).isEqualTo(2)
             },
         );
     }

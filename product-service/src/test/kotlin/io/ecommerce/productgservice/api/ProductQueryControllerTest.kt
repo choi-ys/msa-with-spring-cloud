@@ -18,9 +18,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
  * @date : 2022/01/09 6:17 오후
  */
 @SpringBootTestSupporter
-@DisplayName("API:Product")
+@DisplayName("API:ProductQuery")
 @Import(ProductGenerator::class)
-internal class ProductControllerTest(
+internal class ProductQueryControllerTest(
     private val mockMvc: MockMvc,
     private val productGenerator: ProductGenerator,
 ) {

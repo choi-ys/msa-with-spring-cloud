@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import io.ecommerce.gateway.exception.UnAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -42,61 +43,61 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
 
-            String token = resolve(exchange);
-            isValidToken(exchange, token);
+            try {
+                String token = resolve(exchange);
+                isValidToken(token);
+            } catch (UnAuthorizedException unAuthorizedException) {
+                return onError(exchange, unAuthorizedException);
+            }
 
             return chain.filter(exchange);
         };
     }
 
-    public String resolve(ServerWebExchange exchange) {
+    private String resolve(ServerWebExchange exchange) {
         ServerHttpRequest request = exchange.getRequest();
-        String bearerToken = null;
-        try {
-            bearerToken = request
-                    .getHeaders()
-                    .get(HttpHeaders.AUTHORIZATION)
-                    .get(0);
-        } catch (Exception exception) {
-            onError(exchange, "No authorization Header", HttpStatus.UNAUTHORIZED);
+        HttpHeaders headers = request.getHeaders();
+
+        if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
+            throw new UnAuthorizedException("No authorization Header");
         }
 
+        String bearerToken = headers.get(HttpHeaders.AUTHORIZATION).get(0);
         if (!StringUtils.hasText(bearerToken)) {
-            onError(exchange, "No authorization Header", HttpStatus.UNAUTHORIZED);
+            throw new UnAuthorizedException("No authorization Header");
         }
 
         boolean isBearerToken = bearerToken.startsWith(BEARER + " ");
         if (!isBearerToken) {
-            onError(exchange, "Not Bearer type Header", HttpStatus.UNAUTHORIZED);
+            throw new UnAuthorizedException("Not Bearer type Header");
         }
 
         return bearerToken.substring(7);
     }
 
-
-    private void isValidToken(ServerWebExchange exchange, String token) {
+    private void isValidToken(String token) {
         Algorithm ALGORITHM = Algorithm.HMAC512(SIGNATURE);
 
         try {
             JWT.require(ALGORITHM).build().verify(token);
         } catch (TokenExpiredException e) {
-            onError(exchange, "Token is expired", HttpStatus.UNAUTHORIZED);
+            throw new UnAuthorizedException("Token is expired");
         } catch (JWTDecodeException e) {
-            onError(exchange, "Invalid format", HttpStatus.UNAUTHORIZED);
+            throw new UnAuthorizedException("Invalid format");
         } catch (SignatureVerificationException e) {
-            onError(exchange, "Invalid signature", HttpStatus.UNAUTHORIZED);
+            throw new UnAuthorizedException("Invalid signature");
         }
     }
 
     private Mono<Void> onError(
             ServerWebExchange exchange,
-            String message,
-            HttpStatus httpStatus
+            UnAuthorizedException unAuthorizedException
     ) {
         ServerHttpResponse response = exchange.getResponse();
+        HttpStatus httpStatus = unAuthorizedException.getHttpStatus();
         response.setStatusCode(httpStatus);
 
-        log.error("[{}][{}][{}]", exchange.getRequest().getId(), httpStatus, message);
+        log.error("[{}][{}][{}]", exchange.getRequest().getId(), httpStatus, unAuthorizedException.getMessage());
         return response.setComplete();
     }
 }

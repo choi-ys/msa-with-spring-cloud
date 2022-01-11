@@ -38,4 +38,4 @@ token:
 
 ---
 ip-address:
-  gateway: localhost
+  gateway: 192.168.1.57

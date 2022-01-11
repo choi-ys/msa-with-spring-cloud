@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
  * @date : 2022/01/07 4:30 오후
  */
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Service:User")
+@DisplayName("Service:UserSignup")
 class UserSignupServiceTest {
 
     @Mock

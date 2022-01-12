@@ -1,5 +1,5 @@
 # 특정 상품 조회
-GET {{product-service}}/1
+GET {{product-service}}/product/1
 Content-Type: application/json
 
 ###

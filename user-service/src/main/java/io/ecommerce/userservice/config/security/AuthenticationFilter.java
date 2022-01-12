@@ -81,7 +81,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 )
                 .withClaim("TYPE", "ACCESS_TOKEN")
                 .withClaim("token", user.getUsername())
-                .sign(Algorithm.HMAC512(environment.getProperty("token.secret-key")))
+                .sign(Algorithm.HMAC512(environment.getProperty("token.signature")))
                 ;
     }
 }

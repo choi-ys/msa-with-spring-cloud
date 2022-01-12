@@ -1,0 +1,44 @@
+# JCE를 이용한 body 암호화
+POST {{config}}/encrypt
+Content-Type: text/html
+
+test
+
+> {%
+client.global.set("encrypt_value",response.body)
+%}
+
+###
+
+# JCE를 이용한 body 복호화
+POST {{config}}/decrypt
+Content-Type: text/html
+
+{{encrypt_value}}
+
+###
+
+# datasource-local configurations 조회
+GET {{config}}/datasource/local
+
+###
+
+# eureka-client-local configurations 조회
+GET {{config}}/eureka-client/local
+
+###
+
+# jwt-local configurations 조회
+GET {{config}}/jwt/local
+
+###
+
+# application-local configurations 조회
+GET {{config}}/application/local
+
+###
+
+# user-service-local configurations 조회
+GET {{config}}/user-service/local
+
+###

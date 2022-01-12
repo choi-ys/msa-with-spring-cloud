@@ -33,6 +33,18 @@ GET {{config}}/jwt/local
 
 ###
 
+# jwt-local configurations 조회
+GET {{config}}/rabbitmq/local
+
+###
+
+
+# jwt-local configurations 조회
+GET {{config}}/actuator/local
+
+###
+
+
 # application-local configurations 조회
 GET {{config}}/application/local
 
@@ -40,5 +52,20 @@ GET {{config}}/application/local
 
 # user-service-local configurations 조회
 GET {{config}}/user-service/local
+
+###
+
+# user-service-local configurations 조회
+GET {{config}}/product-service/local
+
+###
+
+# user-service-local configurations 조회
+GET {{config}}/order-service/local
+
+###
+
+# configuration refresh to spring-cloud-bus for rabbitmq connected node
+POST {{product-service}}/actuator/busrefresh
 
 ###

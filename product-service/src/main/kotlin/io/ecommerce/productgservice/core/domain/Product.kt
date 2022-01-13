@@ -15,4 +15,9 @@ data class Product(
     var productCode: String,
     var price: Long,
     var stock: Int,
-) : Auditor()
+) : Auditor() {
+
+    fun order(quantity: Int) {
+        this.stock -= quantity
+    }
+}

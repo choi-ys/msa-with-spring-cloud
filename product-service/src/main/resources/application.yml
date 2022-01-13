@@ -16,3 +16,8 @@ spring:
       ddl-auto: create-drop
     show-sql: true
     generate-ddl: true
+
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    consumer:
+      group-id: product-sync

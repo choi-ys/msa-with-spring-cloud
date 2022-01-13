@@ -14,11 +14,13 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = false)
 class OrdersService(
     private val ordersRepo: OrdersRepo,
+    private val orderProducer: OrderProducer,
 ) {
 
-    fun createOrder(ordersRequest: OrdersRequest) =
+    fun createOrder(ordersRequest: OrdersRequest): OrderResponse =
         ordersRepo.save(ordersRequest.toEntity()).let {
-            OrderResponse.of(it)
+            val orderResponse = OrderResponse.of(it)
+            orderProducer.send(orderResponse)
+            return orderResponse
         }
-
 }

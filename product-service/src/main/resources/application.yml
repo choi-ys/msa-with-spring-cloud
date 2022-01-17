@@ -20,4 +20,4 @@ spring:
   kafka:
     bootstrap-servers: 127.0.0.1:9092
     consumer:
-      group-id: product-sync
+      group-id: product-service

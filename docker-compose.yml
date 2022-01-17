@@ -11,6 +11,21 @@ services:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "admin"
 
+  mysql:
+    container_name: ecommerce-order
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_USER: "ecommerce"
+      MYSQL_PASSWORD: "password"
+      MYSQL_DATABASE: "order"
+    ports:
+      - "3306:3306"
+    command:
+      - "mysqld"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+
   zookeeper:
     image: zookeeper
     container_name: zookeeper
@@ -25,7 +40,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      JMX_PORT: 9093
-      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=host.docker.internal -Dcom.sun.management.jmxremote.rmi.port=9093
+    depends_on:
+      - zookeeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

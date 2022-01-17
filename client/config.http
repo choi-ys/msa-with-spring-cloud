@@ -66,6 +66,6 @@ GET {{config}}/order-service/local
 ###
 
 # configuration refresh to spring-cloud-bus for rabbitmq connected node
-POST {{product-service}}/actuator/busrefresh
+POST {{gateway}}/actuator/busrefresh
 
 ###

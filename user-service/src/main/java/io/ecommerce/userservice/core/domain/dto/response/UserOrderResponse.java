@@ -5,6 +5,7 @@ import io.ecommerce.userservice.core.domain.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.bytebuddy.implementation.bind.annotation.Super;
 
 import java.util.List;
 
@@ -33,5 +34,13 @@ public class UserOrderResponse extends UserResponse {
 
     public void setOrderList(List<OrderResponse> orderList) {
         this.orderList = orderList;
+    }
+
+    @Override
+    public String toString() {
+        return "UserOrderResponse{" +
+                super.toString() +
+                "orderList=" + orderList +
+                '}';
     }
 }

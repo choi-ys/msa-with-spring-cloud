@@ -13,7 +13,13 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+
+---
+logging:
+  level:
+    io.ecommerce.userservice.core.client: debug
+
 ---
 ip-address:
   gateway: 192.168.1.57

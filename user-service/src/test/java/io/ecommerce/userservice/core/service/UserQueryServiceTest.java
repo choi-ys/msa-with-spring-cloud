@@ -1,6 +1,8 @@
 package io.ecommerce.userservice.core.service;
 
+import io.ecommerce.userservice.core.client.OrderServiceClient;
 import io.ecommerce.userservice.core.domain.dto.request.UserSearchRequest;
+import io.ecommerce.userservice.core.domain.dto.response.OrderResponse;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
 import io.ecommerce.userservice.core.domain.dto.response.common.PageResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
@@ -15,7 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,6 +42,9 @@ class UserQueryServiceTest {
     @Mock
     private UserRepo userRepo;
 
+    @Mock
+    private OrderServiceClient orderServiceClient;
+
     @InjectMocks
     private UserQueryService userQueryService;
 
@@ -48,6 +55,8 @@ class UserQueryServiceTest {
         User user = UserGenerator.userMock();
         given(userRepo.findById(anyLong())).willReturn(Optional.of(user));
 
+        given(orderServiceClient.getOrders(anyLong())).willReturn(UserGenerator.userOrderListResponseMock());
+
         // When
         UserResponse expected = userQueryService.findById(anyLong());
 
@@ -57,6 +66,7 @@ class UserQueryServiceTest {
                 () -> then(expected.getName()).isEqualTo(user.getName())
         );
         verify(userRepo).findById(anyLong());
+        verify(orderServiceClient).getOrders(anyLong());
     }
 
     @Test

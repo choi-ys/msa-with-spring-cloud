@@ -1,10 +1,16 @@
 package io.ecommerce.userservice.generator;
 
+import io.ecommerce.userservice.core.domain.dto.response.OrderResponse;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
+import io.ecommerce.userservice.core.domain.dto.response.common.PageResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.core.repository.UserRepo;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.TestConstructor;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author : choi-ys
@@ -34,5 +40,27 @@ public class UserGenerator {
 
     public User savedUser() {
         return userRepo.saveAndFlush(userMock());
+    }
+
+    public static PageResponse<OrderResponse> userOrderListResponseMock() {
+        Long id = 0L;
+        Long userId = 0L;
+        Long productId = 0L;
+        Integer quantity = 0;
+        Long unitPrice = 0L;
+        Long totalPrice = 0L;
+        LocalDateTime createdAt = LocalDateTime.now();
+        return PageResponse.of(new PageImpl<>(
+                List.of(
+                        OrderResponse.of(
+                                id,
+                                userId,
+                                productId,
+                                quantity,
+                                unitPrice,
+                                totalPrice,
+                                createdAt
+                        )
+                )));
     }
 }

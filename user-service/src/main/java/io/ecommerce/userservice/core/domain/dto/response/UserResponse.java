@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * @date : 2022/01/07 4:21 오후
  */
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserResponse {
 
     private Long userId;

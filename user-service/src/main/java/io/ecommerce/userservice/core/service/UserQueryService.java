@@ -1,6 +1,8 @@
 package io.ecommerce.userservice.core.service;
 
+import io.ecommerce.userservice.core.client.OrderServiceClient;
 import io.ecommerce.userservice.core.domain.dto.request.UserSearchRequest;
+import io.ecommerce.userservice.core.domain.dto.response.UserOrderResponse;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
 import io.ecommerce.userservice.core.domain.dto.response.common.PageResponse;
 import io.ecommerce.userservice.core.repository.UserRepo;
@@ -23,13 +25,20 @@ import java.util.Set;
 public class UserQueryService implements UserDetailsService {
 
     private UserRepo userRepo;
+    private OrderServiceClient orderServiceClient;
 
-    public UserQueryService(UserRepo userRepo) {
+    public UserQueryService(
+            UserRepo userRepo,
+            OrderServiceClient orderServiceClient
+    ) {
         this.userRepo = userRepo;
+        this.orderServiceClient = orderServiceClient;
     }
 
     public UserResponse findById(Long id) {
-        return UserResponse.to(userRepo.findById(id).orElseThrow(ResourceNotFoundException::new));
+        UserOrderResponse userOrderResponse = UserOrderResponse.to(userRepo.findById(id).orElseThrow(ResourceNotFoundException::new));
+        userOrderResponse.setOrderList(orderServiceClient.getOrders(id).getEmbedded());
+        return userOrderResponse;
     }
 
     public PageResponse userSearch(UserSearchRequest userSearchRequest) {
@@ -39,7 +48,7 @@ public class UserQueryService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         io.ecommerce.userservice.core.domain.entity.User user = userRepo.findByEmail(username).orElseThrow(
-                () -> new UsernameNotFoundException("")
+                () -> new UsernameNotFoundException("요청에 해당하는 사용자를 찾을 수 없습니다.")
         );
         return new User(user.getEmail(), user.getPassword(), Set.of());
     }

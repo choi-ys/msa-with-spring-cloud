@@ -1,23 +1,29 @@
 package io.ecommerce.userservice.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.ecommerce.userservice.config.test.SpringBootTestSupporter;
+import io.ecommerce.userservice.core.client.OrderServiceClient;
+import io.ecommerce.userservice.core.domain.dto.response.OrderResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.error.ErrorCode;
 import io.ecommerce.userservice.generator.UserGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
+
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 /**
  * @author : choi-ys
@@ -29,17 +35,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserQueryControllerTest {
 
     private final MockMvc mockMvc;
-    private final ObjectMapper objectMapper;
     private final UserGenerator userGenerator;
     private final String USER_URL = "/user";
 
+    @MockBean
+    private OrderServiceClient orderServiceClient;
+
     public UserQueryControllerTest(
             MockMvc mockMvc,
-            ObjectMapper objectMapper,
             UserGenerator userGenerator
     ) {
         this.mockMvc = mockMvc;
-        this.objectMapper = objectMapper;
         this.userGenerator = userGenerator;
     }
 
@@ -49,6 +55,7 @@ class UserQueryControllerTest {
         // Given
         final User user = userGenerator.savedUser();
         final String urlTemplate = String.format("%s/{id}", USER_URL);
+        given(orderServiceClient.getOrders(anyLong())).willReturn(UserGenerator.userOrderListResponseMock());
 
         // When
         ResultActions resultActions = this.mockMvc.perform(get(urlTemplate, user.getId())
@@ -58,7 +65,10 @@ class UserQueryControllerTest {
 
         // Then
         resultActions.andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+        ;
+
+        verify(orderServiceClient).getOrders(anyLong());
     }
 
     @Test

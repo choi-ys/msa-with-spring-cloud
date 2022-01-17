@@ -3,3 +3,11 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+---
+token:
+  token-validity-in-seconds-term: 86400
+  signature: secret-key-test
+
+---
+ip-address:
+  gateway: 127.0.0.1

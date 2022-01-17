@@ -14,11 +14,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
-    generate-ddl: true
 
   kafka:
     bootstrap-servers: 127.0.0.1:9092
+
+  # add p6syp-configurations bean to sleuth-zipkin
+  main:
+    allow-bean-definition-overriding: true
 
 ---
 topic:

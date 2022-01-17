@@ -15,9 +15,7 @@ client.global.set("createdOrdersUserId",response.body.userId)
 ###
 
 # 특정 회원의 주문 목록 조회
-#GET {{gateway}}/orders/{{createdOrdersUserId}}
-#GET{{order-service}}/orders/{{signupUserId}}
-GET {{order-service}}/orders/1
+GET{{order-service}}/orders/{{signupUserId}}
 Content-Type: application/json
 
 ###

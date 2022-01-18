@@ -49,6 +49,7 @@ dependencies {
 
     runtimeOnly("mysql:mysql-connector-java")
     compileOnly("com.h2database:h2")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")

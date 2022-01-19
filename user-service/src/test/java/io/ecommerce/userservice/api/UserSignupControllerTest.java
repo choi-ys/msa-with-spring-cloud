@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static io.ecommerce.userservice.generator.docs.UserSignupDocument.signupUserDocument;
+import static io.ecommerce.userservice.generator.docs.UserSignupDocument.*;
 import static io.ecommerce.userservice.generator.mock.UserGenerator.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -70,7 +70,7 @@ class UserSignupControllerTest {
                 .andExpect(jsonPath("$.userId").exists())
                 .andExpect(jsonPath("$.email").value(signupRequest.getEmail()))
                 .andExpect(jsonPath("$.name").value(signupRequest.getName()))
-                .andDo(signupUserDocument())
+                .andDo(signupDocument())
         ;
     }
 
@@ -101,6 +101,7 @@ class UserSignupControllerTest {
                 .andExpect(jsonPath("$.errorDetails.[0].field").value("email"))
                 .andExpect(jsonPath("$.errorDetails.[0].code").value("EmailUnique"))
                 .andExpect(jsonPath("$.errorDetails.[0].rejectedValue").value(user.getEmail()))
+                .andDo(signupFailDocument())
         ;
     }
 

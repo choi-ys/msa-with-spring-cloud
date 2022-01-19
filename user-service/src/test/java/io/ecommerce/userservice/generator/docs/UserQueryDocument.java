@@ -21,12 +21,12 @@ public class UserQueryDocument {
                         headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
                 ),
                 requestParameters(
-                        parameterWithName("email").description("사용자 이메일"),
-                        parameterWithName("name").description("사용자 이름"),
-                        parameterWithName("page").description("요청 페이지"),
-                        parameterWithName("size").description("페이지당 요소 수"),
-                        parameterWithName("sort").description("정렬 기준"),
-                        parameterWithName("direction").description("정렬 기준")
+                        parameterWithName("email").description("이메일"),
+                        parameterWithName("name").description("이름"),
+                        parameterWithName("page").description("요청 페이지 번호"),
+                        parameterWithName("size").description("페이지당 항목 수"),
+                        parameterWithName("sort").description("정렬 기준 : 항목"),
+                        parameterWithName("direction").description("정렬 기준 : 순서")
                 ),
                 responseHeaders(
                         headerWithName(HttpHeaders.CONTENT_TYPE).description("Response content type")
@@ -41,10 +41,10 @@ public class UserQueryDocument {
                         fieldWithPath("lastPage").description("마지막 페이지 여부"),
                         fieldWithPath("hasNextPage").description("다음 페이지 존재 여부"),
                         fieldWithPath("hasPrevious").description("이전 페이지 존재 여부"),
-                        fieldWithPath("embedded").description("응답 본문"),
-                        fieldWithPath("embedded[0].userId").description("사용자 번호"),
-                        fieldWithPath("embedded[0].email").description("사용자 이메일"),
-                        fieldWithPath("embedded[0].name").description("사용자 이름")
+                        fieldWithPath("embedded").description("응답 본문 배열"),
+                        fieldWithPath("embedded[0].userId").description("사용자 ID"),
+                        fieldWithPath("embedded[0].email").description("이메일"),
+                        fieldWithPath("embedded[0].name").description("이름")
                 )
         );
     }
@@ -62,16 +62,16 @@ public class UserQueryDocument {
                         headerWithName(HttpHeaders.CONTENT_TYPE).description("Response content type")
                 ),
                 responseFields(
-                        fieldWithPath("userId").description("전페 페이지 수"),
-                        fieldWithPath("email").description("전체 요소 수"),
-                        fieldWithPath("name").description("현제 페이지 번호"),
-                        fieldWithPath("orderList[0].id").description("현재 페이지의 요수 수"),
-                        fieldWithPath("orderList[0].userId").description("현재 페이지의 요수 수"),
-                        fieldWithPath("orderList[0].productId").description("현재 페이지의 요수 수"),
-                        fieldWithPath("orderList[0].quantity").description("현재 페이지의 요수 수"),
-                        fieldWithPath("orderList[0].unitPrice").description("현재 페이지의 요수 수"),
-                        fieldWithPath("orderList[0].totalPrice").description("현재 페이지의 요수 수"),
-                        fieldWithPath("orderList[0].createdAt").description("현재 페이지의 요수 수")
+                        fieldWithPath("userId").description("사용자 ID"),
+                        fieldWithPath("email").description("이메일"),
+                        fieldWithPath("name").description("이름"),
+                        fieldWithPath("orderList[0].id").description("주문 번호"),
+                        fieldWithPath("orderList[0].userId").description("사용자 ID"),
+                        fieldWithPath("orderList[0].productId").description("상품 ID"),
+                        fieldWithPath("orderList[0].quantity").description("주문 수량"),
+                        fieldWithPath("orderList[0].unitPrice").description("상품 가격"),
+                        fieldWithPath("orderList[0].totalPrice").description("전체 주문 금액"),
+                        fieldWithPath("orderList[0].createdAt").description("주문일시")
                 )
         );
     }

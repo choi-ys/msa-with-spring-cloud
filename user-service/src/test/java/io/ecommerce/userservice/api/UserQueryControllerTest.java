@@ -2,25 +2,25 @@ package io.ecommerce.userservice.api;
 
 import io.ecommerce.userservice.config.test.SpringBootTestSupporter;
 import io.ecommerce.userservice.core.client.OrderServiceClient;
-import io.ecommerce.userservice.core.domain.dto.response.OrderResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.error.ErrorCode;
-import io.ecommerce.userservice.generator.UserGenerator;
+import io.ecommerce.userservice.generator.mock.UserGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDateTime;
-
+import static io.ecommerce.userservice.generator.docs.UserQueryDocument.getUserDocument;
+import static io.ecommerce.userservice.generator.docs.UserQueryDocument.searchUserDocument;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date : 2022/01/08 2:36 오후
  */
 @SpringBootTestSupporter
+@AutoConfigureRestDocs
 @DisplayName("API:UserQuery")
 @Import(UserGenerator.class)
 class UserQueryControllerTest {
@@ -58,7 +59,7 @@ class UserQueryControllerTest {
         given(orderServiceClient.getOrders(anyLong())).willReturn(UserGenerator.userOrderListResponseMock());
 
         // When
-        ResultActions resultActions = this.mockMvc.perform(get(urlTemplate, user.getId())
+        ResultActions resultActions = this.mockMvc.perform(RestDocumentationRequestBuilders.get(urlTemplate, user.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
         );
@@ -66,6 +67,7 @@ class UserQueryControllerTest {
         // Then
         resultActions.andDo(print())
                 .andExpect(status().isOk())
+                .andDo(getUserDocument())
         ;
 
         verify(orderServiceClient).getOrders(anyLong());
@@ -78,7 +80,7 @@ class UserQueryControllerTest {
         final String urlTemplate = String.format("%s/%s", USER_URL, 0L);
 
         // When
-        ResultActions resultActions = this.mockMvc.perform(get(urlTemplate)
+        ResultActions resultActions = this.mockMvc.perform(RestDocumentationRequestBuilders.get(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
         );
@@ -101,7 +103,7 @@ class UserQueryControllerTest {
         final User user = userGenerator.savedUser();
 
         // When
-        ResultActions resultActions = this.mockMvc.perform(get(USER_URL)
+        ResultActions resultActions = this.mockMvc.perform(RestDocumentationRequestBuilders.get(USER_URL)
                 .param("email", user.getEmail())
                 .param("name", user.getName())
                 .param("page", "0")
@@ -127,6 +129,7 @@ class UserQueryControllerTest {
                 .andExpect(jsonPath("$.embedded[*].userId").exists())
                 .andExpect(jsonPath("$.embedded[*].email").exists())
                 .andExpect(jsonPath("$.embedded[*].name").exists())
+                .andDo(searchUserDocument())
         ;
     }
 }

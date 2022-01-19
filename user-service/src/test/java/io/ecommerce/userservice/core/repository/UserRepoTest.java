@@ -4,7 +4,7 @@ import io.ecommerce.userservice.config.test.DataJpaTestSupporter;
 import io.ecommerce.userservice.core.domain.dto.request.UserSearchRequest;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
-import io.ecommerce.userservice.generator.UserGenerator;
+import io.ecommerce.userservice.generator.mock.UserGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

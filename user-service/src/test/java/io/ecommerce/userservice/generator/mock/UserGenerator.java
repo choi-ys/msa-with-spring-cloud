@@ -1,4 +1,4 @@
-package io.ecommerce.userservice.generator;
+package io.ecommerce.userservice.generator.mock;
 
 import io.ecommerce.userservice.core.domain.dto.response.OrderResponse;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;

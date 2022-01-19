@@ -2,18 +2,22 @@ package io.ecommerce.userservice.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.ecommerce.userservice.config.test.SpringBootTestSupporter;
+import io.ecommerce.userservice.core.client.OrderServiceClient;
 import io.ecommerce.userservice.core.domain.dto.request.SignupRequest;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.core.repository.UserRepo;
 import io.ecommerce.userservice.error.ErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static io.ecommerce.userservice.generator.UserGenerator.*;
+import static io.ecommerce.userservice.generator.docs.UserSignupDocument.signupUserDocument;
+import static io.ecommerce.userservice.generator.mock.UserGenerator.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,15 +28,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date : 2022/01/07 5:10 오후
  */
 @SpringBootTestSupporter
+@AutoConfigureRestDocs
 @DisplayName("API:UserSignup")
 class UserSignupControllerTest {
 
     private final MockMvc mockMvc;
     private final ObjectMapper objectMapper;
-
     private final UserRepo userRepo;
-
     private static final String URL_TEMPLATE = "/user";
+
+    @MockBean
+    private OrderServiceClient orderServiceClient;
 
     public UserSignupControllerTest(
             MockMvc mockMvc,
@@ -64,6 +70,7 @@ class UserSignupControllerTest {
                 .andExpect(jsonPath("$.userId").exists())
                 .andExpect(jsonPath("$.email").value(signupRequest.getEmail()))
                 .andExpect(jsonPath("$.name").value(signupRequest.getName()))
+                .andDo(signupUserDocument())
         ;
     }
 

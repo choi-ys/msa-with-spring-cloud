@@ -2,12 +2,11 @@ package io.ecommerce.userservice.core.service;
 
 import io.ecommerce.userservice.core.client.OrderServiceClient;
 import io.ecommerce.userservice.core.domain.dto.request.UserSearchRequest;
-import io.ecommerce.userservice.core.domain.dto.response.OrderResponse;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
 import io.ecommerce.userservice.core.domain.dto.response.common.PageResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.core.repository.UserRepo;
-import io.ecommerce.userservice.generator.UserGenerator;
+import io.ecommerce.userservice.generator.mock.UserGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;

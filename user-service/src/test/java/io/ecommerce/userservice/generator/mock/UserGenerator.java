@@ -1,4 +1,4 @@
-package io.ecommerce.userservice.generator;
+package io.ecommerce.userservice.generator.mock;
 
 import io.ecommerce.userservice.core.domain.dto.response.OrderResponse;
 import io.ecommerce.userservice.core.domain.dto.response.UserResponse;
@@ -6,6 +6,7 @@ import io.ecommerce.userservice.core.domain.dto.response.common.PageResponse;
 import io.ecommerce.userservice.core.domain.entity.User;
 import io.ecommerce.userservice.core.repository.UserRepo;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.TestConstructor;
 

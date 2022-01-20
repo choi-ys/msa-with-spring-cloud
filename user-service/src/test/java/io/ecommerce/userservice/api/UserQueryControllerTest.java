@@ -74,7 +74,7 @@ class UserQueryControllerTest {
     }
 
     @Test
-    @DisplayName("[400:GET]회원조회 실패:존재하지 않는 회원")
+    @DisplayName("[404:GET]회원조회 실패:존재하지 않는 회원")
     public void findById_fail_cause_notExist() throws Exception {
         // Given
         final String urlTemplate = String.format("%s/%s", USER_URL, 0L);

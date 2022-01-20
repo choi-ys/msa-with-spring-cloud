@@ -1,4 +1,4 @@
-= Board API Guide Document
+= User Service API Guide Document
 [choi.ys];
 :doctype: book
 :icons: font
@@ -18,7 +18,7 @@ API에 대한 전체적인 설명을 포함합니다.
 [[overview-http-verbs]]
 == ** HTTP 동사 **
 
----
+'''
 
 ====
 TIP: ** 본 API에서 사용하는 HTTP 동사(verbs)는 가능한 한 표준 HTTP와 REST 규약을 따릅니다.
@@ -45,7 +45,7 @@ TIP: ** 본 API에서 사용하는 HTTP 동사(verbs)는 가능한 한 표준 HT
 [[overview-http-status-codes]]
 == ** HTTP 상태 코드 **
 
----
+'''
 
 ====
 TIP: ** 본 API에서 사용하는 HTTP 상태 코드는 가능한 한 표준 HTTP와 REST 규약을 따릅니다.
@@ -125,7 +125,7 @@ TIP: ** 본 API에서 사용하는 HTTP 상태 코드는 가능한 한 표준 HT
 [[overview-hypermedia]]
 == ** 하이퍼미디어 **
 
----
+'''
 
 ----
 - 본 API는 하이퍼미디어와 사용하며, 응답에 담겨있는 리소스는 관계된 다른 리소스에 대한 링크를 가지고 있습니다.
@@ -136,7 +136,7 @@ TIP: ** 본 API에서 사용하는 HTTP 상태 코드는 가능한 한 표준 HT
 
 [[common]]
 = ** 공통사항 **
----
+'''
 
 
 [[common-domain]]
@@ -179,7 +179,7 @@ TIP: ** 응답 메세지 구조 **
 API 호출 시 응답 메세지 구조에 대한 정보를 제공합니다.
 ----
 
----
+'''
 
 
 [[common-response-pagination]]
@@ -191,7 +191,7 @@ TIP: ** 목록 API 호출 시 응답 내 페이징 처리에 대한 구조 정�
 
 operation::user-query-controller-test/user-search[snippets='response-body,response-fields']
 
----
+'''
 
 [[common-response-errors]]
 === ** Error **
@@ -209,7 +209,7 @@ operation::user-signup-controller-test/signup_fail_cause_duplicated_email[snippe
 
 [[resources]]
 = ** API **
----
+'''
 
 [[resources-user]]
 == ** 회원 **
@@ -249,4 +249,4 @@ operation::user-query-controller-test/user-search[snippets='http-request,request
 
 ====
 
----
+'''

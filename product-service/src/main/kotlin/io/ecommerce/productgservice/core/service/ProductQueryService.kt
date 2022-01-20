@@ -3,6 +3,7 @@ package io.ecommerce.productgservice.core.service
 import io.ecommerce.productgservice.core.domain.common.PageResponse
 import io.ecommerce.productgservice.core.domain.dto.response.ProductResponse
 import io.ecommerce.productgservice.core.repository.ProductRepo
+import io.ecommerce.productgservice.error.exception.ResourceNotFoundException
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +19,9 @@ class ProductQueryService(
 ) {
 
     fun findById(id: Long): ProductResponse =
-        productRepo.findById(id).orElseThrow().let {
+        productRepo.findById(id).orElseThrow {
+            throw ResourceNotFoundException()
+        }.let {
             ProductResponse.of(it)
         }
 

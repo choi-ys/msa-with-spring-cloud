@@ -1,4 +1,4 @@
-package io.ecommerce.productgservice.generator
+package io.ecommerce.productgservice.generator.mock
 
 import io.ecommerce.productgservice.core.domain.Product
 import io.ecommerce.productgservice.core.repository.ProductRepo

@@ -2,9 +2,9 @@ package io.ecommerce.productgservice.core.repository
 
 import io.ecommerce.productgservice.config.test.DataJpaTestSupporter
 import io.ecommerce.productgservice.core.domain.Product
-import io.ecommerce.productgservice.generator.ProductGenerator
+import io.ecommerce.productgservice.generator.mock.ProductGenerator
 import org.assertj.core.api.BDDAssertions
-import org.assertj.core.api.Java6BDDAssertions.then
+import org.assertj.core.api.BDDAssertions.then
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
@@ -81,21 +81,21 @@ class ProductRepoTest(
 
         // Then
         assertAll(
-            { BDDAssertions.then(expected.totalPages).isEqualTo(1) },
-            { BDDAssertions.then(expected.totalElements).isEqualTo(5) },
-            { BDDAssertions.then(expected.number).isEqualTo(requestPage) },
-            { BDDAssertions.then(expected.numberOfElements).isEqualTo(5) },
-            { BDDAssertions.then(expected.size).isEqualTo(perPageNum) },
-            { BDDAssertions.then(expected.isFirst).isTrue() },
-            { BDDAssertions.then(expected.isLast).isTrue() },
-            { BDDAssertions.then(expected.hasNext()).isFalse() },
-            { BDDAssertions.then(expected.hasPrevious()).isFalse() },
+            { then(expected.totalPages).isEqualTo(1) },
+            { then(expected.totalElements).isEqualTo(5) },
+            { then(expected.number).isEqualTo(requestPage) },
+            { then(expected.numberOfElements).isEqualTo(5) },
+            { then(expected.size).isEqualTo(perPageNum) },
+            { then(expected.isFirst).isTrue() },
+            { then(expected.isLast).isTrue() },
+            { then(expected.hasNext()).isFalse() },
+            { then(expected.hasPrevious()).isFalse() },
             {
-                BDDAssertions.then(expected.content.stream()
+                then(expected.content.stream()
                     .filter { it.productCode == savedProduct.productCode }
                     .count()
                 ).isEqualTo(2)
             },
-        );
+        )
     }
 }

@@ -1,4 +1,4 @@
-= User Service API Guide Document
+= Product Service API Guide Document
 [choi.ys];
 :doctype: book
 :icons: font
@@ -151,13 +151,13 @@ API 호출 시 Endpoint구성에 필요한 도메인 정보를 제공합니다.
 |===
 | 환경 | 도메인
 
-| DEV | dev-user-service.ecommerce.io
+| DEV | dev-product-service.ecommerce.io
 
-| STG | stg-user-service.ecommerce.io
+| STG | stg-product-service.ecommerce.io
 
-| SANDBOX | sandbox-user-service.ecommerce.io
+| SANDBOX | sandbox-product-service.ecommerce.io
 
-| PRD | user-service.ecommerce.io
+| PRD | product-service.ecommerce.io
 |===
 
 [[common-request]]
@@ -189,7 +189,7 @@ TIP: ** 목록 API 호출 시 응답 내 페이징 처리에 대한 구조 정�
 페이징 객체는 다음과 같은 구조로 구성되어 있습니다.
 **
 
-operation::user-query-controller-test/user-search[snippets='response-body,response-fields']
+operation::product-query-controller-test/find-all-by-page-request[snippets='response-body,response-fields']
 
 '''
 
@@ -200,52 +200,43 @@ IMPORTANT: ** API 호출 시 에러가 발생했을 때 (상태 코드 >= 400), 
 에러 객체는 다음과 같은 구조로 구성되어 있습니다.
 **
 
-operation::user-signup-controller-test/signup_fail_cause_duplicated_email[snippets='response-fields']
+operation::product-query-controller-test/find-by-id_fail_cause_not-exist[snippets='response-fields']
 
-WARNING: ** 예를 들어, 잘못된 요청으로 회원가입 시, 다음과 같은 `400 Bad Request` 응답을 반환합니다.
+WARNING: ** 예를 들어, 존재하지 않는 상품 조회 요청 시, 다음과 같은 `404 Not Found` 응답을 반환합니다.
 **
 
-operation::user-signup-controller-test/signup_fail_cause_duplicated_email[snippets='http-request,http-response']
+operation::product-query-controller-test/find-by-id_fail_cause_not-exist[snippets='http-request,http-response']
 
 [[resources]]
 = ** API **
 '''
 
-[[resources-user]]
-== ** 회원 **
+[[resources-product]]
+== ** 상품 **
 
-NOTE: ** User API **
+NOTE: ** Product API **
 
 ----
-User API는 사용자 관련 API Interface를 제공 합니다.
+Product API는 사용자 관련 API Interface를 제공 합니다.
 ----
 
-[[resources-user-signup]]
-=== ** 회원 가입 : `*POST*` User **
+[[resources-product-detail]]
+=== ** 상품 상세 조회 : `*GET*` Product Detail **
 
 ====
-`*POST*` 요청을 사용하여 회원가입 할 수 있습니다.
+`*GET*` 요청을 사용하여 상품 상세 정보를 조회할 수 있습니다.
 
-operation::user-signup-controller-test/signup[snippets='http-request,request-headers,request-fields,http-response,response-headers,response-fields']
-
-====
-
-[[resources-user-get]]
-=== ** 사용자 조회 : `*GET*` User **
+operation::product-query-controller-test/find-by-id[snippets='http-request,request-headers,path-parameters,http-response,response-headers,response-fields']
 
 ====
-`*GET*` 요청을 사용하여 사용자를 조회할 수 있습니다.
 
-operation::user-query-controller-test/find-by-id[snippets='http-request,request-headers,path-parameters,http-response,response-headers,response-fields']
-====
-
-[[resources-user-search]]
-=== ** 사용자 검색 : `*GET*` User **
+[[resources-product-list]]
+=== ** 상품 목록 검색 : `*GET*` Product List **
 
 ====
-`*GET*` 요청을 사용하여 사용자를 검색할 수 있습니다.
+`*GET*` 요청을 사용하여 상품 목록을 조회할 수 있습니다.
 
-operation::user-query-controller-test/user-search[snippets='http-request,request-headers,request-parameters,http-response,response-headers,response-fields']
+operation::product-query-controller-test/find-all-by-page-request[snippets='http-request,request-headers,request-parameters,http-response,response-headers,response-fields']
 
 ====
 

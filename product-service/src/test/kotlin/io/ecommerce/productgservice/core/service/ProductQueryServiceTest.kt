@@ -1,7 +1,7 @@
 package io.ecommerce.productgservice.core.service
 
 import io.ecommerce.productgservice.core.repository.ProductRepo
-import io.ecommerce.productgservice.generator.ProductGenerator
+import io.ecommerce.productgservice.generator.mock.ProductGenerator
 import org.assertj.core.api.BDDAssertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

@@ -3,7 +3,7 @@ package io.ecommerce.userservice.generator.docs;
 import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 
-import static io.ecommerce.userservice.config.docs.ApiDocumentUtils.createDocument;
+import static io.ecommerce.userservice.config.docs.RestDocsConfiguration.createDocument;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;

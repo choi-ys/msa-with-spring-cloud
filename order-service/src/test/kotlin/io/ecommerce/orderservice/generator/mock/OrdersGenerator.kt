@@ -1,4 +1,4 @@
-package io.ecommerce.orderservice.generator
+package io.ecommerce.orderservice.generator.mock
 
 import io.ecommerce.orderservice.core.domain.dto.entity.Orders
 import io.ecommerce.orderservice.core.repository.OrdersRepo
@@ -16,11 +16,11 @@ class OrdersGenerator(
 ) {
     companion object {
         fun ordersMock(): Orders {
-            val userId: Long = 1L
-            val productId: Long = 1L
-            val quantity: Int = 1
+            val userId = 1L
+            val productId = 1L
+            val quantity = 1
             val unitPrice = 15000L
-            val totalPrice = quantity * unitPrice;
+            val totalPrice = quantity * unitPrice
 
             return Orders(userId, productId, quantity, unitPrice, totalPrice)
         }

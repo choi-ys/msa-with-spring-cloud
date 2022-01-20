@@ -1,0 +1,243 @@
+= Order Service API Guide Document
+[choi.ys];
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+
+[[overview]]
+= ** 개요 **
+
+[%hardbreaks]
+----
+API에 대한 전체적인 설명을 포함합니다.
+----
+
+[[overview-http-verbs]]
+== ** HTTP 동사 **
+
+'''
+
+====
+TIP: ** 본 API에서 사용하는 HTTP 동사(verbs)는 가능한 한 표준 HTTP와 REST 규약을 따릅니다.
+**
+====
+
+|===
+| Http Method | Description
+
+| `*GET*`
+| *리소스를 조회*
+
+| `*POST*`
+| *새 리소스를 생성*
+
+| `*PATCH*`
+| *기존 리소스를 수정*
+
+| `*DELETE*`
+| *기존 리소스를 삭제*
+|===
+
+//https://hyeonstorage.tistory.com/97
+[[overview-http-status-codes]]
+== ** HTTP 상태 코드 **
+
+'''
+
+====
+TIP: ** 본 API에서 사용하는 HTTP 상태 코드는 가능한 한 표준 HTTP와 REST 규약을 따릅니다.
+**
+====
+
+|===
+| Http Status Code | Description | Error Code
+
+| `*200 OK*`
+| 요청이 성공적으로 처리 되었음을 의미합니다.
+성공의 의미는 `*HTTP Method*` 에 따라 달라집니다.
+| -
+
+| `*201 Created*`
+| 요청이 성공적이었으며, 그 결과 새로운 리소스가 생성되었습니다. +
+이 응답은 일반적으로 `*POST*` 요청 또는 일부 `*PUT*` 요청 이후에 따라옵니다.
+응답의 `Location` 헤더에 해당 리소스의 URI가 담겨있습니다.
+| -
+
+| `*204 No Content*`
+| 요청이 성공적이었으며, 반환할 응답 바디가 없습니다.
+`*POST*` 성공 상태 응답 코드는 요청이 성공했으나 클라이언트가 현재 페이지에서 벗어나지 않아도 된다는 것을 나타냅니다. +
+기본값에서 204 응답은 캐시에 저장할 수 있습니다. +
+캐시에서 가져온 응답인 경우 ETag 헤더를 포함합니다.
+| -
+
+| `*400 Bad Request*`
+| 요청값을 확인할 수 없는 경우
+| HTTP_MESSAGE_NOT_READABLE
+
+| `*400 Bad Request*`
+| 요청값의 자료형이 잘못된 경우
+| METHOD_ARGUMENT_TYPE_MISMATCH
+
+| `*400 Bad Request*`
+| 유효하지 못한 요청인 경우
+| METHOD_ARGUMENT_NOT_VALID
+
+| `*401 Unauthorized*`
+| 인증 실패: 잘못된 자격 증명인 경우
+| BAD_CREDENTIALS
+
+| `*401 Unauthorized*`
+| 인증 실패: 자격 증명 정보를 찾을 수 없는 경우
+| AUTHENTICATION_CREDENTIALS_NOT_FOUND
+
+| `*403 Forbidden*`
+| 접근 권한 없음 : 유효한 자격증명이 아닌 경우
+| UNAUTHORIZED
+
+| `*403 Forbidden*`
+| 접근 권한 없음 : 유효한 자격증명이 아닌 경우
+| ACCESS_DENIED
+
+| `*404 Not Found*`
+| 요청에 해당하는 자원을 찾을 수 없는 경우
+| RESOURCE_NOT_FOUND
+
+| `*405 Method Not Allowed*`
+| 허용하지 않는 Http Method 요청인 경우
+| HTTP_REQUEST_METHOD_NOT_SUPPORTED
+
+| `*405 Not Acceptable*`
+| 지원하지 않는 Accept Type인 경우
+| HTTP_MEDIA_TYPE_NOT_ACCEPTABLE
+
+| `*415 Unsupported Media Type*`
+| 요청한 `Midea Type` 을 지원하지 않는 경우
+| HTTP_MEDIA_TYPE_NOT_SUPPORTED
+
+| `*429 Too Many Requests*`
+| 일정 기간내 너무 많은 요청이 접수됨
+| TOO_MANY_REQUEST
+|===
+
+[[overview-hypermedia]]
+== ** 하이퍼미디어 **
+
+'''
+
+----
+- 본 API는 하이퍼미디어와 사용하며, 응답에 담겨있는 리소스는 관계된 다른 리소스에 대한 링크를 가지고 있습니다.
+- 응답은 [Hypertext Application from resource to resource. Language (HAL)] 형식을 따릅니다.
+- 링크는 '_links' 라는 키로 제공합니다.
+- 본 API의 사용자(클라이언트)는 URI를 직접 생성하지 않아야 하며, 리소스에서 제공하는 링크를 사용해야 합니다.
+----
+
+[[common]]
+= ** 공통사항 **
+'''
+
+
+[[common-domain]]
+== ** 도메인 정보 **
+
+TIP: ** 도메인 정보 **
+
+----
+API 호출 시 Endpoint구성에 필요한 도메인 정보를 제공합니다.
+----
+
+|===
+| 환경 | 도메인
+
+| DEV | dev-order-service.ecommerce.io
+
+| STG | stg-order-service.ecommerce.io
+
+| SANDBOX | sandbox-order-service.ecommerce.io
+
+| PRD | order-service.ecommerce.io
+|===
+
+[[common-request]]
+== ** 요청 메세지 구조 **
+
+TIP: ** 요청 메세지 구조 **
+
+----
+API 호출에 필요한 요청 메세지 구조에 대한 정보를 제공합니다.
+ - 요청 파라미터는 CamelCase 구조를 따릅니다.
+----
+
+[[common-response]]
+== ** 응답 메세지 구조 **
+
+TIP: ** 응답 메세지 구조 **
+
+----
+API 호출 시 응답 메세지 구조에 대한 정보를 제공합니다.
+----
+
+'''
+
+
+[[common-response-pagination]]
+=== ** Pagination **
+
+TIP: ** 목록 API 호출 시 응답 내 페이징 처리에 대한 구조 정보를 제공합니다.
+페이징 객체는 다음과 같은 구조로 구성되어 있습니다.
+**
+
+//operation::order-query-controller-test/find-all-by-page-request[snippets='response-body,response-fields']
+
+'''
+
+[[common-response-errors]]
+=== ** Error **
+
+IMPORTANT: ** API 호출 시 에러가 발생했을 때 (상태 코드 >= 400), 응답 본문에 해당 문제를 기술한 JSON 객채를 반환합니다.
+에러 객체는 다음과 같은 구조로 구성되어 있습니다.
+**
+
+//operation::order-query-controller-test/find-by-id_fail_cause_not-exist[snippets='response-fields']
+
+WARNING: ** 예를 들어, 존재하지 않는 주문 조회 요청 시, 다음과 같은 `404 Not Found` 응답을 반환합니다.
+**
+
+//operation::order-query-controller-test/find-by-id_fail_cause_not-exist[snippets='http-request,http-response']
+
+[[resources]]
+= ** API **
+'''
+
+[[resources-order]]
+== ** 주문 **
+
+NOTE: ** Order API **
+
+----
+Order API는 사용자 관련 API Interface를 제공 합니다.
+----
+
+[[resources-order-detail]]
+=== ** 주문 상세 조회 : `*GET*` Order Detail **
+
+====
+`*GET*` 요청을 사용하여 주문 상세 정보를 조회할 수 있습니다.
+
+//operation::order-query-controller-test/find-by-id[snippets='http-request,request-headers,path-parameters,http-response,response-headers,response-fields']
+
+====
+
+[[resources-order-list]]
+=== ** 주문 목록 검색 : `*GET*` Order List **
+
+====
+`*GET*` 요청을 사용하여 주문 목록을 조회할 수 있습니다.
+
+//operation::order-query-controller-test/find-all-by-page-request[snippets='http-request,request-headers,request-parameters,http-response,response-headers,response-fields']
+
+====
+
+'''

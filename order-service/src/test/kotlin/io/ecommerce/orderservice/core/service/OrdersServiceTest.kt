@@ -3,7 +3,7 @@ package io.ecommerce.orderservice.core.service
 import io.ecommerce.orderservice.core.domain.dto.entity.Orders
 import io.ecommerce.orderservice.core.domain.dto.request.OrdersRequest
 import io.ecommerce.orderservice.core.repository.OrdersRepo
-import io.ecommerce.orderservice.generator.OrdersGenerator
+import io.ecommerce.orderservice.generator.mock.OrdersGenerator
 import org.assertj.core.api.BDDAssertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

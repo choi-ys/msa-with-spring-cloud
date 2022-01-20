@@ -4,6 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version "1.6.10"
     id 'org.jetbrains.kotlin.plugin.spring' version "1.6.10"
     id 'org.jetbrains.kotlin.plugin.jpa' version "1.6.10"
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 group = 'io.ecommerce'
@@ -11,6 +12,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
+    asciidoctorExtensions
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -21,6 +23,7 @@ repositories {
 }
 
 ext {
+    snippetsDir = file('build/generated-snippets')
     set('springCloudVersion', "2021.0.0")
 }
 
@@ -48,7 +51,7 @@ dependencies {
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.0")
 
     runtimeOnly("mysql:mysql-connector-java")
-    compileOnly("com.h2database:h2")
+    testRuntimeOnly("com.h2database:h2")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
     compileOnly("org.projectlombok:lombok")
@@ -57,6 +60,8 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
 
 dependencyManagement {
@@ -64,3 +69,22 @@ dependencyManagement {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
     }
 }
+
+/* [AsciiDoctor:Spring RETS Docs] Start */
+asciidoctor {
+    configurations 'asciidoctorExtensions'
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from "${asciidoctor.outputDir}"
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyDocument
+}
+/* [AsciiDoctor:Spring RETS Docs] End */

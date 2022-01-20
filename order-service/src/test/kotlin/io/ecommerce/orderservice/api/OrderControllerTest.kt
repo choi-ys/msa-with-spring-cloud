@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.ecommerce.orderservice.config.test.SpringBootTestSupporter
 import io.ecommerce.orderservice.core.domain.dto.request.OrdersRequest
 import io.ecommerce.orderservice.error.ErrorCode
-import io.ecommerce.orderservice.generator.OrdersGenerator
+import io.ecommerce.orderservice.generator.mock.OrdersGenerator
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpMethod
